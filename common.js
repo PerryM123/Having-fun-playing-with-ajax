@@ -21,13 +21,17 @@ function firstLoad() {
 	  dataType: 'json',
 	  success: function(json) {
       jsonData = json;
-	    let len = Object.keys(jsonData.People).length;
-			$previousButton.addClass("hideme"); // 初発行なので１ページになり、Prevボタンを非表示にします。
-      $("#here").html(
-	'<div class="profile"><h3>Name: ' + jsonData.People[0].name + ' </h3><img src="' + jsonData.People[0].images + '"" /><p>Description: ' + jsonData.People[0].description + '</p></div>'
-      );
+      addData();
 	  }
 	});
+	$previousButton.addClass("hideme"); // 初発行なので１ページになり、Prevボタンを非表示にします。
+}
+
+function addData() {
+	let len = Object.keys(jsonData.People).length;
+  $("#here").html(
+'<div class="profile"><h3>Name: ' + jsonData.People[pageNum].name + ' </h3><img src="' + jsonData.People[pageNum].images + '"" /><p>Description: ' + jsonData.People[pageNum].description + '</p></div>'
+      );
 }
 
 
@@ -54,11 +58,7 @@ function buttonHandler(event) {
 	if (pageNum == 6) {
 		$nextButton.addClass("hideme");
 	}
-    let len = Object.keys(jsonData.People).length;
-      $("#here").html(
-	'<div class="profile"><h3>Name: ' + jsonData.People[pageNum].name + ' </h3><img src="' + jsonData.People[pageNum].images + '"" /><p>Description: ' + jsonData.People[pageNum].description + '</p></div>'
-	      );
-	  
+    addData();
 }
 
 $previousButton.on('click', buttonHandler);
