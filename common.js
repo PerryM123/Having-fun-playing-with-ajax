@@ -1,27 +1,40 @@
+/*
+Global Variables can be used freely throughout the program.
+
+Thank you Hiroaki.
+
+
+*/
+
 let pageNum = 0; // 初期値
 
-const $midButton1 = $('#mid-button1');
-const $midButton2 = $('#mid-button2');
+const $previousButton = $('#mid-button1');
+const $nextButton = $('#mid-button2');
+let jsonData = "";
 firstLoad();
 
 function firstLoad() {
+	let cat = 4;
 	$.ajax({
 	  type: 'GET',
 	  url: './data/pageData.json',
 	  dataType: 'json',
 	  success: function(json) {
-	    let len = Object.keys(json.People).length;
-			$midButton1.addClass("hideme"); // 初発行なので１ページになり、Prevボタンを非表示にします。
+      jsonData = json;
+	    let len = Object.keys(jsonData.People).length;
+			$previousButton.addClass("hideme"); // 初発行なので１ページになり、Prevボタンを非表示にします。
       $("#here").html(
-	'<div class="profile"><h3>Name: ' + json.People[0].name + ' </h3><img src="' + json.People[0].images + '"" /><p>Description: ' + json.People[0].description + '</p></div>'
+	'<div class="profile"><h3>Name: ' + jsonData.People[0].name + ' </h3><img src="' + jsonData.People[0].images + '"" /><p>Description: ' + jsonData.People[0].description + '</p></div>'
       );
 	  }
 	});
 }
 
+
+
 function buttonHandler(event) {
-	$midButton1.removeClass("hideme");
-	$midButton2.removeClass("hideme");
+	$previousButton.removeClass("hideme");
+	$nextButton.removeClass("hideme");
 	let buttonId = event.target.id;
 	if (buttonId == "mid-button1") {
 		pageNum--;
@@ -36,29 +49,18 @@ function buttonHandler(event) {
 		pageNum = 6;
 	}
 	if (pageNum == 0) {
-		$midButton1.addClass("hideme");
+		$previousButton.addClass("hideme");
 	}
 	if (pageNum == 6) {
-		$midButton2.addClass("hideme");
+		$nextButton.addClass("hideme");
 	}
-	$.ajax({
-	  type: 'GET',
-	  url: './data/pageData___.json', // 無理やりエラーを発行し、正しいのは：　./data/pageData.json
-	  dataType: 'json',
-	  success: function(json) {
-	    let len = Object.keys(json.People).length;
-	      $("#here").html(
-	'<div class="profile"><h3>Name: ' + json.People[pageNum].name + ' </h3><img src="' + json.People[pageNum].images + '"" /><p>Description: ' + json.People[pageNum].description + '</p></div>'
+    let len = Object.keys(jsonData.People).length;
+      $("#here").html(
+	'<div class="profile"><h3>Name: ' + jsonData.People[pageNum].name + ' </h3><img src="' + jsonData.People[pageNum].images + '"" /><p>Description: ' + jsonData.People[pageNum].description + '</p></div>'
 	      );
-	  },
-	  error: function() {
-	  	$("#here").html(
-	'<div class="profile">error!!!</div>'
-	      );
-	  }
-	});
+	  
 }
 
-$midButton1.on('click', buttonHandler);
-$midButton2.on('click', buttonHandler);
+$previousButton.on('click', buttonHandler);
+$nextButton.on('click', buttonHandler);
 
