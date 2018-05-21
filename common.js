@@ -1,75 +1,64 @@
-
 let pageNum = 0; // 初期値
 
-const prevButton = document.getElementById('previous-button');
-const nextButton = document.getElementById('next-button');
+const $midButton1 = $('#mid-button1');
+const $midButton2 = $('#mid-button2');
+firstLoad();
 
-function pageInit() {
-
-	let pageAmount = 0;
+function firstLoad() {
 	$.ajax({
 	  type: 'GET',
 	  url: './data/pageData.json',
 	  dataType: 'json',
-	  success: function(json){
+	  success: function(json) {
 	    let len = Object.keys(json.People).length;
-		prevButton.classList.add("hideme");
-	    pageAmount = len;
-	      $("#here").html(
+			$midButton1.addClass("hideme"); // 初発行なので１ページになり、Prevボタンを非表示にします。
+      $("#here").html(
 	'<div class="profile"><h3>Name: ' + json.People[0].name + ' </h3><img src="' + json.People[0].images + '"" /><p>Description: ' + json.People[0].description + '</p></div>'
-	      );
+      );
 	  }
 	});
-	return pageAmount;
 }
 
-function nextButtonHandler() {
-	pageNum++;
-
-	if (pageNum > 5) {
-		nextButton.classList.add("hideme");
-		pageNum = 6; // need a way to get the max to automated...
+function buttonHandler(event) {
+	$midButton1.removeClass("hideme");
+	$midButton2.removeClass("hideme");
+	let buttonId = event.target.id;
+	if (buttonId == "mid-button1") {
+		pageNum--;
 	}
-	if (pageNum > 0 && pageNum < 6) {
-		nextButton.classList.remove("hideme");
-		prevButton.classList.remove("hideme");
+	if (buttonId == "mid-button2") {
+		pageNum++;
+	}
+	if (pageNum < 0) {
+		pageNum = 0;
+	}
+	if (pageNum > 6) {
+		pageNum = 6;
+	}
+	if (pageNum == 0) {
+		$midButton1.addClass("hideme");
+	}
+	if (pageNum == 6) {
+		$midButton2.addClass("hideme");
 	}
 	$.ajax({
 	  type: 'GET',
-	  url: './data/pageData.json',
+	  url: './data/pageData___.json', // 無理やりエラーを発行し、正しいのは：　./data/pageData.json
 	  dataType: 'json',
-	  success: function(json){
+	  success: function(json) {
 	    let len = Object.keys(json.People).length;
 	      $("#here").html(
 	'<div class="profile"><h3>Name: ' + json.People[pageNum].name + ' </h3><img src="' + json.People[pageNum].images + '"" /><p>Description: ' + json.People[pageNum].description + '</p></div>'
 	      );
-	  }
-	});
-}
-
-function prevButtonHandler() {
-	pageNum--;
-	if (pageNum > 0 && pageNum < 6) {
-		nextButton.classList.remove("hideme");
-		prevButton.classList.remove("hideme");
-	}
-	if (pageNum < 1) {
-		prevButton.classList.add("hideme");
-		pageNum = 0; // need a way to get the max to automated...
-	}
-	// if second to last or less, remove class
-	$.ajax({
-	  type: 'GET',
-	  url: './data/pageData.json',
-	  dataType: 'json',
-	  success: function(json){
-	    let len = Object.keys(json.People).length;
-	      $("#here").html(
-	'<div class="profile"><h3>Name: ' + json.People[pageNum].name + ' </h3><img src="' + json.People[pageNum].images + '"" /><p>Description: ' + json.People[pageNum].description + '</p></div>'
+	  },
+	  error: function() {
+	  	$("#here").html(
+	'<div class="profile">error!!!</div>'
 	      );
 	  }
 	});
 }
 
-prevButton.addEventListener('click', prevButtonHandler);
-nextButton.addEventListener('click', nextButtonHandler);
+$midButton1.on('click', buttonHandler);
+$midButton2.on('click', buttonHandler);
+
