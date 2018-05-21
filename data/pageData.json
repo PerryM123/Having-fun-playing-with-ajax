@@ -1,0 +1,39 @@
+{
+	"People": [
+		{
+			"name": "John1",
+			"description": "Description 1",
+			"images": "/ajax-practice/images/ssf2st_thumbnail.jpg"
+		},
+		{
+			"name": "John2",
+			"description": "Description 2",
+			"images": "/ajax-practice/images/sf3-3s_full.jpg"
+		},
+		{
+			"name": "John3",
+			"description": "Description 3",
+			"images": "/ajax-practice/images/sf3-2i_thumbnail.jpg"
+		},
+		{
+			"name": "John4",
+			"description": "Description 4",
+			"images": "/ajax-practice/images/sf3-1g_full.jpg"
+		},
+		{
+			"name": "John5",
+			"description": "Description 5",
+			"images": "/ajax-practice/images/mvc1_thumbnail.jpg"
+		},
+		{
+			"name": "John6",
+			"description": "Description 6",
+			"images": "/ajax-practice/images/mshvsf_full.jpg"
+		},
+		{
+			"name": "John7",
+			"description": "Description 7",
+			"images": "/ajax-practice/images/ggac_full.jpg"
+		}
+	]
+}
